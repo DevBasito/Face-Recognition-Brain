@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(90deg,#1d2671 0%, #c33764 100%); 
+  background: url('./bg-desktop.svg') ; 
 }
 
 code {

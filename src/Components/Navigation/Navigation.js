@@ -4,7 +4,7 @@ const Navigation = () => {
     return (
         <>
         <nav className='d-flex justify-content-end'>
-            <p className='btn-link p-3 h3 text-light text-decoration-underline'>Sign Out</p>
+            <p className='btn-link p-3 h3 text-dark text-decoration-underline'>Sign Out</p>
         </nav>
         </>
     )
