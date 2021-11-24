@@ -100,10 +100,10 @@ const App = () => {
 
   const [input, setInput] = useState(" ");
   const [imageurl, setImageurl] = useState('');
-  const [box, setBox] = useState({});
+  const [box, setBox] = useState('');
 
   const calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const clarifaiFace = data.regions[0].region_info.bounding_box;
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
@@ -137,36 +137,39 @@ const App = () => {
     //       // .predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     //       // to:
     //       // .predict('53e1df302c079b3db8a0a36033ed2d15', this.state.input)
-    //       Clarifai.FACE_DETECT_MODEL,
+    //       {
+    //         id: "a403429f2ddf4b49b307e318f00e528b" ,
+    //         version: "34ce21a40cc24b6b96ffee54aabff139",
+    //       },
     //       input)
-    //       fetch('http://localhost:3000/imageurl', {
+    //       fetch('https://api.clarifai.com/v2/models/a403429f2ddf4b49b307e318f00e528b/outputs', {
     // 				method: 'post',
     // 				headers: {'Content-Type': 'application/json'},
     // 				body: JSON.stringify({
     // 					input: input
     // 				})
     // 			})
-    // 	.then(response => response.json())
-    //     .then(response => {
-    //       alert('hi', response)
-    //       if (response) {
-    //         fetch('http://localhost:3000/imageurl', {
-    //           method: 'put',
-    //           headers: { 'Content-Type': 'application/json' },
-    //           body: JSON.stringify({
-    //             id: this.state.user.id
-    //           })
-    //         })
-    //           .then(response => response.json())
-    //           .then(count => {
-    //             this.setState(Object.assign(this.state.user, { entries: count }))
-    //           })
-
-    //       }
-    //       displayFaceBox(calculateFaceLocation(response))
+    //   	.then(response => response.json())
+    // .then(response => {
+    //   console.log(response)
+    //   if (response) {
+    //     fetch('http://localhost:3000/imageurl', {
+    //       method: 'put',
+    //       headers: { 'Content-Type': 'application/json' },
+    //       body: JSON.stringify({
+    //         // id: this.state.user.id
+    //       })
     //     })
-    //     .catch(err => console.log(err));
-    // }
+    //     // .then(response => response.json())
+    //     // .then(count => {
+    //     //   this.setState(Object.assign(this.state.user, { entries: count }))
+    //     // })
+
+    //   }
+    //   displayFaceBox(calculateFaceLocation(response))
+    // })
+    // .catch(error => console.log('error', error));
+    //   }
 
     const raw = JSON.stringify({
       "user_app_id": {
@@ -177,7 +180,8 @@ const App = () => {
         {
           "data": {
             "image": {
-              "url": "https://samples.clarifai.com/metro-north.jpg"
+              "url": input
+              //  "https://images.pexels.com/photos/3586798/pexels-photo-3586798.jpeg"
             }
           }
         }
@@ -188,7 +192,7 @@ const App = () => {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Authorization': '13b367795254e81809002937fe5376d'
+        'Authorization': 'Key 93c2946bd1b3463a86e3d1a3235e64ec'
       },
       body: raw
     };
@@ -199,8 +203,10 @@ const App = () => {
 
     fetch("https://api.clarifai.com/v2/models/a403429f2ddf4b49b307e318f00e528b/outputs", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(JSON.parse(result, null, 2).outputs[0].data))
-      displayFaceBox(calculateFaceLocation())
+      .then(result => {
+        console.log(JSON.parse(result, null, 2).outputs[0].data)
+        displayFaceBox(calculateFaceLocation(JSON.parse(result, null, 2).outputs[0].data))
+      })
       .catch(error => console.log('error', error));
   }
   return (
